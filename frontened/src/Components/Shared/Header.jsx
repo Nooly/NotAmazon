@@ -1,7 +1,10 @@
 import SearchBox from './SearchBox';
-import { NavBar, Container, LinkContainer, Link } from '../../imports.js'
+import { NavBar, Container, LinkContainer, Link, NavDropdown, useContext } from '../../imports.js'
+import { Store } from '../../Store.jsx';
 
 const Header = () => {
+    const { state } = useContext(Store);
+    const { userInfo } = state;
     return (
         <header>
             <NavBar bg="dark" variant="dark">
@@ -17,9 +20,14 @@ const Header = () => {
                             <i className='fa fa-shopping-cart text-white'></i>
                         </Link>
                     </nav>
-                    <Link to="/signin" className='text-white nav-link'>
+                    {userInfo ? (
+                        <NavDropdown className='text-white' title={userInfo.name}>
+                            <NavDropdown.Divider />
+                            <Link to={"/signout"} className='dropdown item'>Sign-Out</Link>
+                        </NavDropdown>
+                    ) : <Link to="/signin" className='text-white nav-link'>
                         Sign-in
-                    </Link>
+                    </Link>}
                 </Container>
             </NavBar>
         </header>

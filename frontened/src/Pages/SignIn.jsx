@@ -1,18 +1,26 @@
-import { axios, useState, Container, Form, Button, Link } from '../imports.js';
+import { axios, useState, Container, Form, Button, Link, useNavigate, toast, useContext } from '../imports.js';
 import Title from '../Components/Shared/Title.jsx';
-import { toast } from 'react-toastify';
 import { getError } from '../utils.js';
+import { USER_SIGNIN } from '../actions.jsx';
+import { Store } from '../Store.jsx';
 
 const SignIn = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const { dispatch: ctxDispatch } = useContext(Store);
 
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
             const { data } = await axios.post("/api/v1/users/signin", { email: email, password: password });
             console.log(data);
+            ctxDispatch({ type: USER_SIGNIN, payload: data }); //GETTING AN ERROR HERE!!!
+            console.log("1");
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            navigate("/");
+
         } catch (error) {
             toast.error(getError(error));
         }
@@ -36,11 +44,11 @@ const SignIn = () => {
                         </Form.Control>
                     </Form.Group>
                     <div className='mb-3'>
-                        <Button type='submit'>Sign In</Button>
+                        <Button type='submit'>Sign In </Button>
                     </div>
                     <div className='mb-3'>
-                        New Customer?
-                        <Link to="/signup">Create new account</Link>
+                        New Customer?{" "}
+                        <Link to="/signup">Create a new account</Link>
                     </div>
                     <div className='mb-3'>
                         Forgot Password?{" "}
