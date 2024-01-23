@@ -38,7 +38,7 @@ const SignIn = () => {
                     </Form.Group>
                     <Form.Group className="mb-3" controlId='password'>
                         <Form.Label>Password</Form.Label>
-                        <Form.Control required onChange={(e) => setPassword(e.target.value)} placeholder="********">
+                        <Form.Control required type='password' onChange={(e) => setPassword(e.target.value)} placeholder="********">
                         </Form.Control>
                     </Form.Group>
                     <div className='mb-3'>
