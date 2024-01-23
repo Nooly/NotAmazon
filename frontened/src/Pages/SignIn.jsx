@@ -1,5 +1,7 @@
 import { axios, useState, Container, Form, Button, Link } from '../imports.js';
 import Title from '../Components/Shared/Title.jsx';
+import { toast } from 'react-toastify';
+import { getError } from '../utils.js';
 
 const SignIn = () => {
 
@@ -12,7 +14,7 @@ const SignIn = () => {
             const { data } = await axios.post("/api/v1/users/signin", { email: email, password: password });
             console.log(data);
         } catch (error) {
-            console.log(error.response.data.message);
+            toast.error(getError(error));
         }
 
     };
