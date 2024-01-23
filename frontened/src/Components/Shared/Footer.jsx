@@ -1,4 +1,4 @@
-import React from 'react'
+import {React} from '../../imports.js'
 
 const Footer = () => {
   return (
