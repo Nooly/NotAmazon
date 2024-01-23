@@ -4,7 +4,18 @@ import storeReducer from "./Reducers/storeReducer.jsx";
 export const Store = createContext();
 
 const userInfo = localStorage.getItem('userInfo');
-const initialState = { userInfo: userInfo ? JSON.parse(userInfo) : null };
+const cartInfo = localStorage.getItem('cartItems');
+const shippingAdress = localStorage.getItem('shippingAdress');
+const paymentMethod = localStorage.getItem('paymentMethod');
+
+const initialState = {
+    userInfo: userInfo ? JSON.parse(userInfo) : null,
+    cart: {
+        cartItems: cartInfo ? JSON.parse(cartInfo) : [],
+        shippingAdress: shippingAdress ? JSON.parse(shippingAdress) : {},
+        paymentMethod: paymentMethod ? JSON.parse(paymentMethod) : ""
+    }
+};
 
 export const StoreProvider = ({ children }) => {
     const [state, dispatch] = useReducer(storeReducer, initialState);
