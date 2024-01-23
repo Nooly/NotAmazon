@@ -24,7 +24,7 @@ export const HomePage = () => {
   }, [])
 
   return (
-    <div><Title title="Home Page" />
+    <div><Title title="NotAmazon!" />
       <div className='backgroundHomePage'>
         <img style={{ width: "100%" }} src="https://m.media-amazon.com/images/I/81d5OrWJAkL._SX3000_.jpg" alt="backgroundHomePage" />
       </div>
