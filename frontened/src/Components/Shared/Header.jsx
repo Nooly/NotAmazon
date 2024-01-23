@@ -1,10 +1,15 @@
 import SearchBox from './SearchBox';
 import { NavBar, Container, LinkContainer, Link, NavDropdown, useContext } from '../../imports.js'
 import { Store } from '../../Store.jsx';
+import { USER_SIGNOUT } from '../../actions.jsx';
 
 const Header = () => {
-    const { state } = useContext(Store);
+    const { state, dispatch: ctxDispatch } = useContext(Store);
     const { userInfo } = state;
+    const signOutHandler = () =>{
+        ctxDispatch({type: USER_SIGNOUT});
+        localStorage.removeItem('userInfo');
+    }
     return (
         <header>
             <NavBar bg="dark" variant="dark">
@@ -23,7 +28,7 @@ const Header = () => {
                     {userInfo ? (
                         <NavDropdown className='text-white' title={userInfo.name}>
                             <NavDropdown.Divider />
-                            <Link to={"/signout"} className='dropdown item'>Sign-Out</Link>
+                            <Link to={"/"} className='dropdown item' onClick={signOutHandler}>Sign-Out</Link>
                         </NavDropdown>
                     ) : <Link to="/signin" className='text-white nav-link'>
                         Sign-in

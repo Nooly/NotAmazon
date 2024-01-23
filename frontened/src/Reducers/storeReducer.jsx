@@ -1,4 +1,4 @@
-import { USER_SIGNIN, USER_SIGNUP } from '../actions.jsx';
+import { USER_SIGNIN, USER_SIGNUP, USER_SIGNOUT } from '../actions.jsx';
 
 const storeReducer = (state, action) => {
     switch (action.type) {
@@ -7,6 +7,9 @@ const storeReducer = (state, action) => {
         }
         case USER_SIGNUP: {
             return { ...state, userInfo: action.payload };
+        }
+        case USER_SIGNOUT:{
+            return {...state, userInfo: action.payload};
         }
         default: return { ...state };
     }
