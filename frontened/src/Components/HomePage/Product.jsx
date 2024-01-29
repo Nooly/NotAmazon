@@ -1,6 +1,7 @@
 import Rating from '../Shared/Rating';
 import { PropTypes, Card, Button, Link, useContext } from '../../imports.js';
 import { Store } from '../../store.jsx';
+import { addToCartHandler } from '../../utils.js';
 
 const Product = ({ product }) => {
   const {state, dispatch: ctxDispatch} = useContext(Store);
