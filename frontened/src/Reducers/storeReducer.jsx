@@ -13,7 +13,7 @@ const storeReducer = (state, action) => {
         }
         case ADD_TO_CART: {
 
-            const newItem = payload;
+            const newItem = action.payload;
 
             const existingItem = state.cart.cartItems.find(
 
@@ -30,7 +30,6 @@ const storeReducer = (state, action) => {
                 ) //סינטקס מוזר אבל הוא מחזיר את כל המערך, עם החלפה של את האייטם הישן בחדש
 
                 : [...state.cart.cartItems, newItem];
-
 
 
             localStorage.setItem("cartItems", JSON.stringify(cartItems));
