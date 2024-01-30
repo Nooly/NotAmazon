@@ -56,7 +56,7 @@ const SignIn = () => {
                     </div>
                     <div className='mb-3'>
                         New Customer?{" "}
-                        <Link to="/signup">Create a new account</Link>
+                        <Link to={`/signup?redirect=${redirect}`}>Create a new account</Link>
                     </div>
                     <div className='mb-3'>
                         Forgot Password?{" "}

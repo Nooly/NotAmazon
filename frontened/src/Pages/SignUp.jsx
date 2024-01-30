@@ -1,8 +1,8 @@
-import { axios, useState, Container, Form, Button, Link, useNavigate, toast, useContext } from '../imports.js';
+import { axios, useState, Container, Form, Button, Link, useNavigate, toast, useContext, useLocation, useEffect } from '../imports.js';
 import { USER_SIGNUP } from '../actions.jsx';
 import Title from '../Components/Shared/Title.jsx';
 import { getError } from '../utils.js';
-import { Store } from '../store.jsx';
+import { Store } from '../Store.jsx';
 
 
 class PassError extends Error {
@@ -21,20 +21,27 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const { dispatch: ctxDispatch } = useContext(Store);
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { userInfo } = state;
+  const { search } = useLocation();
+  const redirectUrl = new URLSearchParams(search);
+  const redirectValue = redirectUrl.get("redirect");
+  const redirect = redirectValue ? redirectValue : "/";
+
+  useEffect(() => {
+    if (userInfo) navigate(redirect);
+  }, [])
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      console.log(password)
-      console.log(confirmPassword)
       if (password != confirmPassword) throw new PassError("Passwords not matching!")
       else {
         const { data } = await axios.post("/api/v1/users/signup", { name: name, email: email, password: password, confirmPassword: confirmPassword });
         ctxDispatch({ type: USER_SIGNUP, payload: data });
 
         localStorage.setItem("userInfo", JSON.stringify(data));
-        navigate("/signin");
+        navigate(redirect);
       }
     } catch (error) {
       if (error instanceof PassError) {
@@ -76,7 +83,7 @@ const SignUp = () => {
           </div>
           <div className='mb-3'>
             Already, have an account?{" "}
-            <Link to="/signin">Sign In</Link>
+            <Link to={`/signin?redirect=${redirect}`}>Sign In</Link>
           </div>
         </Form>
       </Container>
