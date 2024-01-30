@@ -1,4 +1,4 @@
-import { USER_SIGNIN, USER_SIGNUP, USER_SIGNOUT, ADD_TO_CART } from '../actions.jsx';
+import { USER_SIGNIN, USER_SIGNUP, USER_SIGNOUT, ADD_TO_CART, REMOVE_FROM_CART } from '../actions.jsx';
 
 const storeReducer = (state, action) => {
     switch (action.type) {
@@ -9,7 +9,7 @@ const storeReducer = (state, action) => {
             return { ...state, userInfo: action.payload };
         }
         case USER_SIGNOUT: {
-            return { ...state, userInfo: null, cart: {cartItems: [], shippingAdress: {}, paymentMethod: ""} };
+            return { ...state, userInfo: null, cart: { cartItems: [], shippingAdress: {}, paymentMethod: "" } };
         }
         case ADD_TO_CART: {
 
@@ -38,6 +38,13 @@ const storeReducer = (state, action) => {
 
             return { ...state, cart: { ...state.cart, cartItems } };
 
+        }
+        case REMOVE_FROM_CART: {
+            const item = action.payload;
+            const cartItems = state.cart.cartItems.filter((p) => p._id != item._id);
+
+            localStorage.setItem("cartItems", JSON.stringify(cartItems)); // turn to function because doubleo
+            return { ...state, cart: { ...state.cart, cartItems } };
         }
         default: return { ...state };
     }

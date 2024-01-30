@@ -2,7 +2,7 @@ import Checkout from "../Components/CartPage/Checkout.jsx";
 import ItemsInCart from "../Components/CartPage/ItemsInCart.jsx";
 import Title from "../Components/Shared/Title.jsx";
 import { Store } from "../Store.jsx";
-import { ADD_TO_CART } from "../actions.jsx";
+import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions.jsx";
 import { Col, React, Row, axios, toast, useContext } from "../imports.js"
 import { getError } from "../utils.js";
 
@@ -12,7 +12,7 @@ const Cart = () => {
     const { cart } = state;
     const { cartItems } = cart;
 
-    const updateCartHandler = async (product,quantity) => {
+    const updateCartHandler = async (product, quantity) => {
 
         try {
             const { data } = await axios.get(`/api/v1/products/${product._id}`);
@@ -27,11 +27,14 @@ const Cart = () => {
             toast.error((getError(err)));
         }
     }
+    const removeItemHandler = async (product) => {
+        ctxDispatch({ type: REMOVE_FROM_CART, payload: product });
+    }
 
     return (
         <div><Title title="Shopping cart"></Title>
             <Row>
-                <Col md={8}><ItemsInCart cartItems={cartItems} updateCartHandler={updateCartHandler} /></Col>
+                <Col md={8}><ItemsInCart cartItems={cartItems} updateCartHandler={updateCartHandler} removeItemHandler={removeItemHandler}/></Col>
                 <Col md={4}><Checkout cartItems={cartItems} /></Col>
             </Row>
         </div>

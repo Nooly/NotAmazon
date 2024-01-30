@@ -1,7 +1,7 @@
 import { React, PropTypes, Link, ListGroup, Button, Row, Col } from "../../imports.js"
 import MessageBox from "../Shared/MessageBox.jsx";
 
-const ItemsInCart = ({ cartItems, updateCartHandler }) => {
+const ItemsInCart = ({ cartItems, updateCartHandler, removeItemHandler }) => {
     return (
         <div>
             {cartItems.length === 0 ? <MessageBox>Your cart is empty <Link to={"/"}>Go back to your home page.</Link></MessageBox> :
@@ -23,7 +23,11 @@ const ItemsInCart = ({ cartItems, updateCartHandler }) => {
                                     </Button>
                                 </Col>
                                 <Col md={1}>{item.price}$</Col>
-                                <Col md={1}></Col>
+                                <Col md={1}>
+                                    <Button variant="light" onClick={() => removeItemHandler(item)}>
+                                        <i className="fas fa-trash"></i>
+                                    </Button>
+                                </Col>
                             </Row>
                         </ListGroup.Item>
                     ))}
@@ -32,6 +36,6 @@ const ItemsInCart = ({ cartItems, updateCartHandler }) => {
     )
 }
 
-ItemsInCart.protoTypes = { cartItems: PropTypes.array, updateCartHandler: PropTypes.func }
+ItemsInCart.protoTypes = { cartItems: PropTypes.array, updateCartHandler: PropTypes.func, removeItemHandler: PropTypes.func }
 
 export default ItemsInCart;
