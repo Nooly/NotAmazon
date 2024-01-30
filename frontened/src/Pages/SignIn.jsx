@@ -1,15 +1,25 @@
-import { axios, useState, Container, Form, Button, Link, useNavigate, toast, useContext } from '../imports.js';
+import { axios, useState, Container, Form, Button, Link, useNavigate, toast, useContext, useLocation, useEffect } from '../imports.js';
 import Title from '../Components/Shared/Title.jsx';
 import { getError } from '../utils.js';
 import { USER_SIGNIN } from '../actions.jsx';
-import { Store } from '../store.jsx';
+import { Store } from '../Store.jsx';
 
 const SignIn = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const { dispatch: ctxDispatch } = useContext(Store);
+    const { state, dispatch: ctxDispatch } = useContext(Store);
+    const { userInfo } = state;
+    const { search } = useLocation();
+    const redirectUrl = new URLSearchParams(search);
+    const redirectValue = redirectUrl.get("redirect");
+    const redirect = redirectValue ? redirectValue : "/";
+
+    useEffect(() => {
+        if (userInfo) navigate(redirect);
+    }, [])
+
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -17,7 +27,7 @@ const SignIn = () => {
             const { data } = await axios.post("/api/v1/users/signin", { email: email, password: password });
             ctxDispatch({ type: USER_SIGNIN, payload: data });
             localStorage.setItem("userInfo", JSON.stringify(data));
-            navigate("/");
+            navigate(redirect);
 
         } catch (error) {
             toast.error(getError(error));

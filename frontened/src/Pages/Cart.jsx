@@ -3,7 +3,7 @@ import ItemsInCart from "../Components/CartPage/ItemsInCart.jsx";
 import Title from "../Components/Shared/Title.jsx";
 import { Store } from "../Store.jsx";
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions.jsx";
-import { Col, React, Row, axios, toast, useContext } from "../imports.js"
+import { Col, React, Row, axios, toast, useContext, useNavigate } from "../imports.js"
 import { getError } from "../utils.js";
 
 const Cart = () => {
@@ -11,6 +11,11 @@ const Cart = () => {
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart } = state;
     const { cartItems } = cart;
+    const navigate = useNavigate();
+
+    const checkOutHandler = () =>{
+        navigate("/signin?redirect=/shipping");
+    }
 
     const updateCartHandler = async (product, quantity) => {
 
@@ -35,7 +40,7 @@ const Cart = () => {
         <div><Title title="Shopping cart"></Title>
             <Row>
                 <Col md={8}><ItemsInCart cartItems={cartItems} updateCartHandler={updateCartHandler} removeItemHandler={removeItemHandler}/></Col>
-                <Col md={4}><Checkout cartItems={cartItems} /></Col>
+                <Col md={4}><Checkout cartItems={cartItems} checkOutHandler={checkOutHandler}/></Col>
             </Row>
         </div>
     )
