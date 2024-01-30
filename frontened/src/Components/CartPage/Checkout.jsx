@@ -21,6 +21,6 @@ const Checkout = ({ cartItems }) => {
     )
 }
 
-Checkout.propTypes = { cartItems: PropTypes.arr };
+Checkout.propTypes = { cartItems: PropTypes.array };
 
 export default Checkout;

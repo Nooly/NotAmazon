@@ -32,6 +32,6 @@ const ItemsInCart = ({ cartItems, updateCartHandler }) => {
     )
 }
 
-ItemsInCart.protoTypes = { cartItems: PropTypes.array, updateCartHandler: PropTypes.function }
+ItemsInCart.protoTypes = { cartItems: PropTypes.array, updateCartHandler: PropTypes.func }
 
 export default ItemsInCart;
