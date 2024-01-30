@@ -4,6 +4,6 @@ import {getProducts, getProductById,getProductByToken} from "../controllers/prod
 const productsRouter = express.Router();
 productsRouter.get('/', getProducts);
 productsRouter.get('/:id', getProductById);
-productsRouter.get('token/:token',getProductByToken);
+productsRouter.get("/token/:token", getProductByToken);
 
 export default productsRouter;
