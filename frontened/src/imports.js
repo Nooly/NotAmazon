@@ -28,6 +28,7 @@ import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
 import Badge from "react-bootstrap/Badge";
+import { useLocation } from 'react-router-dom';
 
 export {
     PropTypes,
@@ -62,5 +63,6 @@ export {
     useContext,
     useParams,
     ListGroup,
-    Badge
+    Badge,
+    useLocation
 };

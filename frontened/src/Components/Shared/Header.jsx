@@ -1,14 +1,16 @@
 import SearchBox from './SearchBox';
-import { NavBar, Container, LinkContainer, Link, NavDropdown, useContext } from '../../imports.js'
+import { NavBar, Container, LinkContainer, Link, NavDropdown, useContext, useNavigate,useLocation } from '../../imports.js'
 import { Store } from '../../Store.jsx';
 import { USER_SIGNOUT } from '../../actions.jsx';
 import { Badge } from 'react-bootstrap';
 
 const Header = () => {
     const { state, dispatch: ctxDispatch } = useContext(Store);
-    const { userInfo, cart: {cartItems} } = state;
-    const signOutHandler = () =>{
-        ctxDispatch({type: USER_SIGNOUT});
+    const { userInfo, cart: { cartItems } } = state;
+    const navigate = useNavigate();
+    const location = useLocation();
+    const signOutHandler = () => {
+        ctxDispatch({ type: USER_SIGNOUT });
         localStorage.removeItem('userInfo');
         localStorage.removeItem('cartItems');
         localStorage.removeItem('shippingAdress');
@@ -17,7 +19,10 @@ const Header = () => {
     return (
         <header>
             <NavBar bg="dark" variant="dark">
-                <Container>
+                <Container> 
+                    <Link onClick={() => navigate(-1)}>{/*need to fix a problem, if you copy the url and open in a new browser and then press back*/}
+                        {location.pathname !== '/' && <i className="fa fa-arrow-left text-white align-arrow-right"> Back</i>}
+                    </Link>
                     <LinkContainer to="/">
                         <NavBar.Brand>
                             <img src="https://companieslogo.com/img/orig/AMZN_BIG.D-8fb0be81.png?t=1632523695" width={80} alt='Amazon logo' />
@@ -29,7 +34,7 @@ const Header = () => {
                             <i className='fa fa-shopping-cart text-white'></i>
                             {cartItems.length > 0 && (
                                 <Badge pill bg='danger'>
-                                    {cartItems.reduce((a,c) => a + c.quantity,0)}
+                                    {cartItems.reduce((a, c) => a + c.quantity, 0)}
                                 </Badge>
                             )}
                         </Link>
