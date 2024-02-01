@@ -20,7 +20,7 @@ const ItemsInCart = ({ cartItems, updateCartHandler, removeItemHandler }) => {
                                         <i className="fa fa-minus-circle"></i>
                                     </Button>
                                     <span> {item.quantity} </span>
-                                    <Button onClick={() => updateCartHandler(item, item.quantity + 1)} variant="light">
+                                    <Button onClick={() => updateCartHandler(item, item.quantity + 1)} disabled={item.quantity === item.countInStock} variant="light">
                                         <i className="fa fa-plus-circle"></i>
                                     </Button>
                                 </Col>

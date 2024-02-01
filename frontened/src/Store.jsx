@@ -13,7 +13,7 @@ const initialState = {
     cart: {
         cartItems: cartInfo ? JSON.parse(cartInfo) : [],
         shippingAdress: shippingAdress ? JSON.parse(shippingAdress) : {},
-        paymentMethod: paymentMethod ? JSON.parse(paymentMethod) : ""
+        paymentMethod: paymentMethod ? paymentMethod : ""
     }
 };
 
