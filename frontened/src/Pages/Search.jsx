@@ -21,7 +21,7 @@ const Search = () => {
     const category = searchParams.get('category') || 'all';
     const query = searchParams.get('query') || 'all';
     const price = searchParams.get('price') || 'all';
-    const rate = searchParams.get('rate') || 'all';
+    const rating = searchParams.get('rating') || 'all';
     const order = searchParams.get('order') || 'newest';
     const page = searchParams.get('page') || 1;
 
@@ -37,22 +37,21 @@ const Search = () => {
             }
         }
         getCategories();
-    }, [])
+    }, []);
 
 
     useEffect(() => {
         const getProducts = async () => {
             try {
                 dispatch({ type: GET_REQUEST });
-                const { data } = await axios.get(`/api/v1/products/search?category=${category}&query=${query}
-                &price=${price}&rate=${rate}&order=${order}&page=${page}`);
+                const { data } = await axios.get(`/api/v1/products/search?category=${category}&query=${query}&price=${price}&rating=${rating}&order=${order}&page=${page}`);
                 dispatch({ type: GET_SUCCESS, payload: data });
             } catch (error) {
                 dispatch({ type: GET_FAIL, payload: getError(error) });
             }
         };
-        // getProducts();
-    }, [category, query, price, rate, order, page]);
+        getProducts();
+    }, [category, query, price, rating, order, page]);
 
     return (
         <div><Title title="Search Products" />
@@ -78,10 +77,11 @@ const Search = () => {
                     </ul>
                     <h3>Reviews: </h3>
                     <ul>
-                        <li><Link className={"all" === ratings ? "text-bold" : ""} to={getFilterURI(search, { ratings: "all" })}>any</Link></li>
+                        <li><Link className={"all" === rating ? "text-bold" : ""} to={getFilterURI(search, { rating: "all" })}>any</Link></li>
                         {ratings.map((r) => (
                             <li key={r.rating}>
-                                <Link to={getFilterURI(search, { rating: r.rating })}>{r.rating}
+                                <Link className={r.rating === rating ? "text-bold" : ""} 
+                                to={getFilterURI(search, { rating: r.rating })}>{r.rating}
                                     {r.name}
                                     <Rating rating={r.rating} caption={' '}></Rating>
                                 </Link>
@@ -100,9 +100,9 @@ const Search = () => {
                                             {query !== "all" && " : " + query}
                                             {category !== "all" && " : " + category}
                                             {price !== "all" && " : Price " + price}
-                                            {ratings !== "all" && " : Rating" + ratings + " and up"}
-                                            {query !== "all" || category !== "all" || price !== "all" || ratings !== "all" ?
-                                                <Button variant="light" onClick={() => { navigate(getFilterURI(search, { query: "all", category: "all", price: "all", ratings: "all", order: "newest", page: 1 })) }}>
+                                            {rating !== "all" && " : Rating" + rating + " and up"}
+                                            {query !== "all" || category !== "all" || price !== "all" || rating !== "all" ?
+                                                <Button variant="light" onClick={() => { navigate(getFilterURI(search, { query: "all", category: "all", price: "all", rating: "all", order: "newest", page: 1 })) }}>
                                                     <i className="fas fa-times-circle"></i>
                                                 </Button> : null //short circuit maybe with &&
                                             }

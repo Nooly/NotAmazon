@@ -26,7 +26,7 @@ export const Shipping = () => {
 
     return (
         <div><Title title="Shipping"></Title>
-            <CheckOutSteps step1 step />
+            <CheckOutSteps step1 step2 />
             <Container className='small-container'>
                 <h1 className='my-3'>Shipping Address</h1>
                 <Form onSubmit={submitHandler}>

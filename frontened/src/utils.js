@@ -69,7 +69,7 @@ const getFilterURI = (searchFromURI, filter, skipPathName) => {
     const category = searchParams.get('category') || 'all';
     const query = searchParams.get('query') || 'all';
     const price = searchParams.get('price') || 'all';
-    const rate = searchParams.get('rate') || 'all';
+    const rate = searchParams.get('rating') || 'all';
     const order = searchParams.get('order') || 'newest';
     const page = searchParams.get('page') || 1;
 
@@ -77,10 +77,10 @@ const getFilterURI = (searchFromURI, filter, skipPathName) => {
     const filterCategory = filter.category || category;
     const filterQuery = filter.query || query;
     const filterPrice = filter.price || price;
-    const filterRate = filter.rate || rate;
+    const filterRating = filter.rating || rate;
     const filterOrder = filter.order || order;
 
-    const link = `${skipPathName ? "" : '/search?'}category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rate=${filterRate}&order=${filterOrder}&page=${filterPage}`
+    const link = `${skipPathName ? "" : '/search?'}category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${filterOrder}&page=${filterPage}`
 
     return link;
 };

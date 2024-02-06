@@ -1,6 +1,6 @@
 import  {React, Col, PropTypes, Row } from '../../imports.js'
 
-export const CheckOutSteps = (step1, step2, step3, step4) => {
+export const CheckOutSteps = ({step1, step2, step3, step4}) => {
     return (
             <Row className='checkout-steps'>
                 <Col className={step1 && "active"}>SignIn</Col>

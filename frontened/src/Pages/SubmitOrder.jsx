@@ -50,7 +50,7 @@ const SubmitOrder = () => {
     return (
         <div>
             <Title title="Order Summary" />
-            <CheckOutSteps step1 step2 step3 step4 />
+            <CheckOutSteps step1 step2 step3 />
             <h1 className="my-3">Order Summary</h1>
             <Row>
                 <Col md={8}>

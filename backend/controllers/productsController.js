@@ -45,14 +45,51 @@ const getProductByToken = async (req, res) => {
 
 const getCategories = async (req, res) => {
   const categories = await Product.find().distinct("category");
-  
+
   if (categories) {
     res.send(categories);
   } else {
     res.status(404).send({ message: "Categories not found" }); // dont need if you have express async handler
   }
-}
+};
+
+const getProductByQuery = async (req, res) => {
+
+  const { query } = req;
+  const page = query.page || 1;
+  const order = query.order || "";
+  const category = query.category || "";
+  const rating = query.rating || "";
+  const price = query.price || "";
+  const searchQuery = query.query || "";
+  const pageSize = query.pageSize || 6;
+  const queryFilter = searchQuery && searchQuery !== "all" ? {
+    title: {
+      $regex: searchQuery,
+      $options: "i"
+    }
+  } : {}
+  const categoryFilter = category && category !== "all" ? {category} : {};
+  const priceFilter = price && price !== "all" ? { price: { $gte: Number(price.split("-")[0]), $lte: Number(price.split("-")[1]) } } : {};
+  const ratingFilter = rating && rating !== "all" ? { "rating.rate": { $gte: Number(rating) } } : {};
+
+  const orderSort = order === "lowest" ? { price: 1 } :
+    order === "highest" ? { price: -1 } :
+      order === "toprated" ? { rating: -1 } :
+        order === "newest" ? { createdAt: -1 } :
+          { _id: -1 };
+
+  const products = await Product
+    .find({ ...queryFilter, ...categoryFilter, ...priceFilter, ...ratingFilter })
+    .sort(orderSort)
+    .skip(pageSize * (page - 1))
+    .limit(pageSize);
+
+  const countProducts = await Product.countDocuments({ ...queryFilter, ...categoryFilter, ...priceFilter, ...ratingFilter });
+
+  res.send({ products, countProducts, page, pages: Math.ceil(countProducts / pageSize) })
+
+};
 
 
-
-export { getProducts, getProductById, getProductByToken, getCategories };
+export { getProducts, getProductById, getProductByToken, getCategories, getProductByQuery };
