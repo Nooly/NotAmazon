@@ -63,3 +63,24 @@ export const addToCartHandler = async (product, cartItems, ctxDispatch) => {
 
 
 }
+
+export const getFilterURI = (searchFromURI, filter, skipPathName) => {
+    const searchParams = new URLSearchParams(searchFromURI);
+    const category = searchParams.get('category') || 'all';
+    const query = searchParams.get('query') || 'all';
+    const price = searchParams.get('price') || 'all';
+    const rate = searchParams.get('rate') || 'all';
+    const order = searchParams.get('order') || 'newest';
+    const page = searchParams.get('page') || 1;
+
+    const filterPage = filter.page || page;
+    const filterCategory = filter.category || category;
+    const filterQuery = filter.query || query;
+    const filterPrice = filter.price || price;
+    const filterRate = filter.rate || rate;
+    const filterOrder = filter.order || order;
+
+    const link = `${skipPathName ? "" : '/search?'}category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rate=${filterRate}&order=${filterOrder}&page=${filterPage}`
+
+    return link;
+};
