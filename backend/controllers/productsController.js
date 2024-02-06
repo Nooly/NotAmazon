@@ -45,7 +45,7 @@ const getProductByToken = async (req, res) => {
 
 const getCategories = async (req, res) => {
   const categories = await Product.find().distinct("category");
-
+  
   if (categories) {
     res.send(categories);
   } else {

@@ -1,7 +1,7 @@
 import { axios } from "./imports.js"
 import { ADD_TO_CART } from "./actions";
 
-export const getError = (error) => {
+const getError = (error) => {
     return error.message && error.response.data.message ? error.response.data.message : error.message;
 };
 
@@ -28,7 +28,7 @@ export const getError = (error) => {
 
 // };
 
-export const addToCartHandler = async (product, cartItems, ctxDispatch) => {
+const addToCartHandler = async (product, cartItems, ctxDispatch) => {
 
 
 
@@ -64,7 +64,7 @@ export const addToCartHandler = async (product, cartItems, ctxDispatch) => {
 
 }
 
-export const getFilterURI = (searchFromURI, filter, skipPathName) => {
+const getFilterURI = (searchFromURI, filter, skipPathName) => {
     const searchParams = new URLSearchParams(searchFromURI);
     const category = searchParams.get('category') || 'all';
     const query = searchParams.get('query') || 'all';
@@ -84,3 +84,5 @@ export const getFilterURI = (searchFromURI, filter, skipPathName) => {
 
     return link;
 };
+
+export { getError, addToCartHandler, getFilterURI }
