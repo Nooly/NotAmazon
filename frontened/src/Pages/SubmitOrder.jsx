@@ -1,6 +1,13 @@
+import Checkout from '../Components/CartPage/Checkout.jsx';
+import { CheckOutSteps } from '../Components/Shared/CheckOutSteps.jsx';
+import  OrderSummary  from '../Components/Shared/OrderSummary.jsx';
+import PaymentSummary from '../Components/Shared/PaymentSummary.jsx';
+import Title from '../Components/Shared/Title.jsx';
+import { toast } from "react-toastify";
 import { Store } from '../Store.jsx';
-import { React, useContext, useEffect, useNavigate, useState } from '../imports.js'
+import { Col, React, Row, axios, useContext, useEffect, useNavigate, useState } from '../imports.js'
 import { getError } from '../utils.js';
+import { CLEAR_CART } from '../actions.jsx';
 
 const SubmitOrder = () => {
     const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -15,32 +22,44 @@ const SubmitOrder = () => {
     const submitOrderHandler = async () => {
         try {
             setLoading(true);
-            // post request addOrder
-            // delete cartItems from state and localStorage
-            // go o OrderDetails page /id of order
+            const orderData = { orderItems: cart.cartItems, shippingAddress: cart.shippingAddress, paymentMethod: cart.paymentMethod, itemsPrice: cart.itemsPrice, shippingPrice: cart.shippingPrice, taxPrice: cart.taxPrice, totalPrice: cart.totalPrice }
+            const { data } = await axios.post("/api/v1/orders", orderData, { headers: { authorization: `Bearer ${userInfo.token}` } })
+            ctxDispatch({ type: CLEAR_CART })
+            localStorage.removeItem("cartItems");
+            navigate(`/orders/${data.order._id}`);
         } catch (error) {
-            toast.error(getError(error));
+            toast.error(getError(error)); // not working i think?
         }
-        finally{
+        finally {
             setLoading(false);
         }
     };
 
-    const round2 = (number) => Math.round((number*100+Number.EPSILON)/100); // check what EPSILON is
+    const round2 = (number) => Math.round((number * 100 + Number.EPSILON) / 100); // check what EPSILON is
 
     cart.itemsPrice = round2(
         cart.cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
-      );
-      cart.taxPrice = round2(cart.itemsPrice * 0.17);
-      cart.shippingPrice =
+    );
+    cart.taxPrice = round2(cart.itemsPrice * 0.17);
+    cart.shippingPrice =
         cart.itemsPrice > 50
-          ? round2(cart.itemsPrice * 0.1)
-          : round2(cart.itemsPrice * 0.02);
-      cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+            ? round2(cart.itemsPrice * 0.1)
+            : round2(cart.itemsPrice * 0.02);
+    cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
     return (
         <div>
-
+            <Title title="Order Summary" />
+            <CheckOutSteps step1 step2 step3 step4 />
+            <h1 className="my-3">Order Summary</h1>
+            <Row>
+                <Col md={8}>
+                    <OrderSummary cart={cart} status={"submitOrder"} />
+                </Col>
+                <Col md={4}>
+                <PaymentSummary loading={loading} submitOrderHandler={submitOrderHandler} status="submitOrder" cart={cart} />
+                </Col>
+            </Row>
         </div>
     )
 }

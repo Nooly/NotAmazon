@@ -1,4 +1,4 @@
-import { USER_SIGNIN, USER_SIGNUP, USER_SIGNOUT, ADD_TO_CART, REMOVE_FROM_CART, SAVE_SHIPPING_ADDRESS, SAVE_PAYMENT_METHOD } from '../actions.jsx';
+import { USER_SIGNIN, USER_SIGNUP, USER_SIGNOUT, ADD_TO_CART, REMOVE_FROM_CART, SAVE_SHIPPING_ADDRESS, SAVE_PAYMENT_METHOD, CLEAR_CART } from '../actions.jsx';
 
 const storeReducer = (state, action) => {
     switch (action.type) {
@@ -49,6 +49,9 @@ const storeReducer = (state, action) => {
         case SAVE_PAYMENT_METHOD: {
             return { ...state, cart: { ...state.cart, paymentMethod: action.payload } }
         }
+        case CLEAR_CART: {
+            return { ...state, cart: { ...state.cart, cartItems: [] }};
+          }
         default: return { ...state };
     }
 }

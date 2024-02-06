@@ -5,14 +5,14 @@ export const Store = createContext();
 
 const userInfo = localStorage.getItem('userInfo');
 const cartInfo = localStorage.getItem('cartItems');
-const shippingAdress = localStorage.getItem('shippingAdress');
+const shippingAdress = localStorage.getItem('shippingAddress');
 const paymentMethod = localStorage.getItem('paymentMethod');
 
 const initialState = {
     userInfo: userInfo ? JSON.parse(userInfo) : null,
     cart: {
         cartItems: cartInfo ? JSON.parse(cartInfo) : [],
-        shippingAdress: shippingAdress ? JSON.parse(shippingAdress) : {},
+        shippingAddress: shippingAdress ? JSON.parse(shippingAdress) : {},
         paymentMethod: paymentMethod ? paymentMethod : ""
     }
 };

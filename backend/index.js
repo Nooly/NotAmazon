@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import seedRouter from "./routes/seedRouter.js";
 import productsRouter from "./routes/productsRouter.js";
 import usersRouter from "./routes/usersRouter.js";
+import ordersRouter from "./routes/ordersRouter.js";
 
 const app = express();
 dotenv.config();
@@ -19,6 +20,7 @@ const PORT = process.env.PORT || 8080; //make sure that you have a .env file
 app.use("/api/v1/seed", seedRouter);
 app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/orders", ordersRouter);
 app.use((err, req, res, next) => {
     res.status(500).send({message: err.message})
 })
