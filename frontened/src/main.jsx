@@ -5,7 +5,7 @@ import App from './App.jsx'
 import './index.css'
 import { StoreProvider } from './Store.jsx';
 
-axios.defaults.baseURL = 'http://localhost:8080'; // Change this to server once we have one in production or import from .env
+axios.defaults.baseURL = import.meta.env.DEV ? 'http://localhost:8080' : 'https://not-amazon-sooty.vercel.app/';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
