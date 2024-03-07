@@ -1,4 +1,4 @@
-// import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 const data = {
   products: [
@@ -559,8 +559,7 @@ const data = {
     {
       name: "Admin",
       email: "admin@example.com",
-      // password: bcrypt.hashSync("1234"),
-      password: "1234",
+      password: bcrypt.hashSync("1234"),
       _id: "64379be3274e949864ae7779",
       __v: 0,
       createdAt: "2023-04-13T06:06:27.929Z",
